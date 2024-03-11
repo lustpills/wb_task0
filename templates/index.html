@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html>
+<title>Online Javascript Editor</title> 
+<head> 
+</head> 
+<body>
+   <script> 
+      async function fun() { 
+         const orderKey1 = document.getElementById("orderKey").value;
+         if (!orderKey1) {
+            alert('Please enter an order key');
+            return;
+         }
+
+         try {
+            const response = await fetch(`http://localhost:8000/orders/${orderKey1}`);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            const details = await response.json();
+            document.getElementById("result").innerHTML = JSON.stringify(details, null, 2);
+         } catch (error) {
+            console.error('Error fetching order details:', error);
+            alert('Failed to fetch order details');
+         }
+      } 
+   </script>
+   Calling js function using HTML button <br><br>
+   <input type="text" id="orderKey" placeholder="Enter order key">
+   <button onclick="fun()"> click me !</button> 
+   <p> 
+      <div id="result"> </div> 
+   </p> 
+</body> 
+</html>
