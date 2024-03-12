@@ -8,20 +8,16 @@ import (
 
 var MyCache *Cache
 
+// simple caching system using map[string]interface{}
 type Cache struct {
 	services *service.Service
 	sync.RWMutex
 	items map[string]interface{}
 }
 
-// type Item struct {
-// 	Value interface{}
-// }
-
+// NewCash initiates a caching system
+// when cache is initiated it automatically restores orders data from the db
 func NewCash(servises *service.Service) *Cache {
-
-	// инициализируем карту(map) в паре ключ(string)/значение(Item)
-	//items := make(map[string]Item)
 
 	cache := Cache{
 		services: servises,

@@ -18,12 +18,13 @@ func NewPublisher(services *service.Service) *Publisher {
 	return &Publisher{services: services}
 }
 
+// publish orders in a cycle, shold be started with a goroutine
 func (p *Publisher) Publishing(ctx context.Context, s jetstream.Stream, js jetstream.JetStream) {
 
 	msg_counter := 0
 
 	for {
-		time.Sleep(2 * time.Hour)
+		time.Sleep(10 * time.Second)
 		_, err := js.Publish(ctx, "ORDERS.new", generate())
 		if err != nil {
 			log.Fatal("error occured while trying to publish an order: ", err)
@@ -32,19 +33,5 @@ func (p *Publisher) Publishing(ctx context.Context, s jetstream.Stream, js jetst
 		msg_counter++
 
 	}
-	//msg, _ := s.GetLastMsgForSubject(ctx, "ORDERS.new")
-	//var new_order orders.Order
-
-	//json.Unmarshal(msg.Data, &new_order)
-
-	//fmt.Println(new_order.Order_uid)
-
-	//order_id, err := p.services.Orders.CreateOrder(new_order)
-
-	// if err != nil {
-	// 	log.Fatal("error occured while creating an order: ", err)
-	// }
-
-	//fmt.Println(order_id)
 
 }

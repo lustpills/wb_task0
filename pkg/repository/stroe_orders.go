@@ -16,6 +16,7 @@ func NewOrderPostgres(db *sqlx.DB) *OrderPostgres {
 	return &OrderPostgres{db: db}
 }
 
+// CreateOrder stores order in a db
 func (r *OrderPostgres) CreateOrder(order orders.Order) (string, error) {
 	var order_id string
 
@@ -34,6 +35,7 @@ func (r *OrderPostgres) CreateOrder(order orders.Order) (string, error) {
 	return order_id, nil
 }
 
+// RestoreCache transforms db into a map and returns it
 func (r *OrderPostgres) RestoreCache() (map[string]interface{}, error) {
 	RestoredSlice := []orders.Order{}
 	RestoredCache := make(map[string]interface{})
@@ -55,6 +57,7 @@ func (r *OrderPostgres) RestoreCache() (map[string]interface{}, error) {
 	return RestoredCache, nil
 }
 
+// GetOrder get an order from a db by its order_uid primary key
 func (r *OrderPostgres) GetOrder(order_id string) (orders.Order, error) {
 
 	var order orders.Order

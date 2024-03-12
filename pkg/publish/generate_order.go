@@ -10,6 +10,8 @@ import (
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyz1234567890")
 
+// generate returns a marshaled json model of an order with random detales
+
 func generate() []byte {
 	rand.Seed(time.Now().UnixNano())
 
