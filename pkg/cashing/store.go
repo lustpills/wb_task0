@@ -1,5 +1,7 @@
 package caching
 
+import "log"
+
 // Set adds an item to the cache
 func (c *Cache) Set(key string, value interface{}) {
 
@@ -25,6 +27,13 @@ func (c *Cache) Get(key string) (interface{}, bool) {
 	return item, true
 }
 
+// put orders from a db to cache
 func (c *Cache) Restore() error {
+	items, err := c.services.Orders.RestoreCache()
+	if err != nil {
+		log.Println("Error occured when restoring cache: ", err)
+		return err
+	}
+	c.items = items
 	return nil
 }

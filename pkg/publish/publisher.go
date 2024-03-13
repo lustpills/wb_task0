@@ -24,14 +24,14 @@ func (p *Publisher) Publishing(ctx context.Context, s jetstream.Stream, js jetst
 	msg_counter := 0
 
 	for {
-		time.Sleep(10 * time.Second)
+		//time.Sleep(10 * time.Minute)
 		_, err := js.Publish(ctx, "ORDERS.new", generate())
 		if err != nil {
 			log.Fatal("error occured while trying to publish an order: ", err)
 		}
 		fmt.Printf("Published hello message %d\n", msg_counter)
 		msg_counter++
-
+		time.Sleep(10 * time.Second)
 	}
 
 }

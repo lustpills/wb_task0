@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"time"
 
 	_ "github.com/lib/pq"
 	"github.com/nats-io/nats.go"
@@ -25,8 +24,8 @@ func main() {
 		log.Fatal("error initializing configs: ", err)
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
+	ctx := context.Background()
+	//defer cancel()
 
 	// initiating a nats-server connection
 	nc, err := nats.Connect(nats.DefaultURL)
@@ -63,13 +62,16 @@ func main() {
 	consumers := consume.NewConsumer(service, s)
 	cache := caching.NewCash(service)
 
+	// restoring cache
+	cache.Restore()
+
+	println()
+
 	// starting a publishing goroutine
 	go publishers.Publishing(ctx, s, js)
 
 	// starting stream listening goroutine
 	go consumers.Consuming(ctx)
-
-	cache.Restore()
 
 	// starting a server
 	srv := new(orders.Server)
