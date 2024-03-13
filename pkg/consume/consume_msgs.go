@@ -39,10 +39,11 @@ func (c *Consumer) Consuming(ctx context.Context) {
 				log.Println(err)
 			} else {
 				fmt.Println("Sucsessfully stored an order: ", order_id)
+				caching.MyCache.Set(order_id, new_order)
 			}
 
 			// second caching an order
-			caching.MyCache.Set(order_id, new_order)
+			// /caching.MyCache.Set(order_id, new_order)
 			messageCounter++
 			msg.Ack()
 		}

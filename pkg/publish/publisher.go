@@ -29,7 +29,7 @@ func (p *Publisher) Publishing(ctx context.Context, s jetstream.Stream, js jetst
 		if err != nil {
 			log.Fatal("error occured while trying to publish an order: ", err)
 		}
-		fmt.Printf("Published hello message %d\n", msg_counter)
+		fmt.Printf("Made an order: %d\n", msg_counter)
 		msg_counter++
 		time.Sleep(10 * time.Second)
 	}
